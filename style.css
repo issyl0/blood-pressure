@@ -1,0 +1,26 @@
+html {
+	font-family: "Gill Sans", "Lucida Grande", sans-serif;
+	font-size: 14pt;
+	text-align: center;
+}
+
+a {
+	text-decoration: none;
+}
+
+#content {
+	text-align: center;
+	height: 250px;
+	margin-left: 465px;
+	margin-right: 465px;
+}
+
+#bp-good {
+	font-size: 18pt;
+	color: #99CC32;
+}
+
+.bp-bad {
+	font-size: 18pt;
+	color: #FC1501;
+}

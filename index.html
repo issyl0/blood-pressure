@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<title>Is your blood pressure high?</title>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+	</head>
+
+	<body>
+
+		<div id="header"></div>
+
+		<div id="content">
+			<p>Should you really be concerned about your blood pressure?
+				<br />
+				Find out by entering both of its values below.</p>
+
+			<form>
+				<input id="bp-top" type="number" placeholder="top reading"></textarea>
+				<br />
+				<input id="bp-bottom" type="number" placeholder="bottom reading"></input>
+				<br />
+				<input class='submit_button' type='submit' value='Submit' onclick="check_blood_pressure_values();return false;"></input>
+			</form>
+		</div>
+
+		<div id="footer">
+			<p>Created by <a href="http://issyl0.co.uk">Isabell Long</a> at <a href="http://rewiredstate.org/hacks/wellcome-trust-open-science">Rewired State's Wellcome Trust hackday</a>. Code on <a href="https://github.com/issyl0/blood-pressure">GitHub</a>.</p>
+		</div>
+	</body>
+
+</html>
