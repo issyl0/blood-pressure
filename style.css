@@ -20,6 +20,11 @@ a {
 	color: #99CC32;
 }
 
+.bp-moderate {
+	font-size: 18pt;
+	color: #FF6600;
+}
+
 .bp-bad {
 	font-size: 18pt;
 	color: #FC1501;
