@@ -4,9 +4,16 @@
 		<link href="style.css" rel="stylesheet" type="text/css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&amp;sensor=true"></script>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
 		<script type="text/javascript" src="main.js"></script>
 		<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+		<style type="text/css">
+			#map_container {
+    			height: 300px;
+    			width: 300px;
+    			border:1px solid #eaeaea;
+    		}
+    	</style>
 	</head>
 
 	<body>
@@ -34,13 +41,18 @@
 			<p>Here are some things to do to help reduce it:</p>
 			<div id="tips-section">
 				<ul>
+					<li>Visit a GP. The nearest to you is...</p>
+						<div id="map_container">
+						</div>
+					</li>
 					<li>Eat healthily.</li>
 				</ul>
 			</div>
 		</div>
 
 		<div id="footer">
-			<p>Created by <a href="http://issyl0.co.uk">Isabell Long</a> at <a href="http://rewiredstate.org/hacks/wellcome-trust-open-science">Rewired State's Wellcome Trust hackday</a>. Code on <a href="https://github.com/issyl0/blood-pressure">GitHub</a>.</p>
+			<p>Created by <a href="http://issyl0.co.uk">Isabell Long</a> at <a href="http://rewiredstate.org/hacks/wellcome-trust-open-science">Rewired State's Wellcome Trust hackday</a>.<br />
+				Code on <a href="https://github.com/issyl0/blood-pressure">GitHub</a>.</p>
 		</div>
 	</body>
 
