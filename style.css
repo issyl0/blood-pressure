@@ -2,17 +2,26 @@ html {
 	font-family: "Gill Sans", "Lucida Grande", sans-serif;
 	font-size: 14pt;
 	text-align: center;
+	background-color: #CDC1C5;
 }
 
 a {
 	text-decoration: none;
 }
 
+#header {
+	height: 150px;
+}
+
 #content {
+	background-color: none;
 	text-align: center;
-	height: 250px;
+	height: 260px;
 	margin-left: 465px;
 	margin-right: 465px;
+	border: solid 2px;
+	border-color: #050505;
+	border-radius: 10px 10px;
 }
 
 #bp-good {
@@ -29,10 +38,18 @@ a {
 	font-size: 18pt;
 	color: #FC1501;
 }
+
 div#info-box {
 	font-size: 12pt;
 }
 
 div#tips-section {
 	text-align: left;
+}
+
+div#footer {
+	width: 500px;
+	text-align: center;
+	margin-left: 400px;
+	margin-right: 400px;
 }
