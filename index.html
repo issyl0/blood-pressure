@@ -3,7 +3,10 @@
 		<title>Is your blood pressure high?</title>
 		<link href="style.css" rel="stylesheet" type="text/css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&amp;sensor=true"></script>
 		<script type="text/javascript" src="main.js"></script>
+		<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
 	</head>
 
 	<body>
@@ -22,6 +25,18 @@
 				<br />
 				<input class='submit_button' type='submit' value='Submit' onclick="check_blood_pressure_values();return false;"></input>
 			</form>
+		</div>
+
+		<div id="info-box" title="Help!">
+		<!-- Pop up help box for if blood pressure is too high. -->
+			<p>Your blood pressure is higher than that of 69.8% of adults in England.</p>
+
+			<p>Here are some things to do to help reduce it:</p>
+			<div id="tips-section">
+				<ul>
+					<li>Eat healthily.</li>
+				</ul>
+			</div>
 		</div>
 
 		<div id="footer">
