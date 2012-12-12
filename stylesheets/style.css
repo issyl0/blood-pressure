@@ -1,0 +1,22 @@
+#bp-good {
+	font-size: 18pt;
+	color: #99CC32;
+}
+
+#bp-moderate {
+	font-size: 18pt;
+	color: #FF6600;
+}
+
+.bp-bad {
+	font-size: 18pt;
+	color: #FC1501;
+}
+
+div#info-box {
+	font-size: 12pt;
+}
+
+div#tips-section {
+	text-align: left;
+}
