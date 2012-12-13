@@ -4,21 +4,15 @@ function check_blood_pressure_values() {
 	var bp_bottom = $('#bp-bottom').val()
 
 	if (bp_top > 140 || bp_bottom > 90) {
-		$("<p>Your blood pressure is <span class='bp-bad'>TOO HIGH</span>.<br />" +
-			"<input type='button' value='Help!' id='infobox' onclick=\"$(\'#info-box\').dialog(\'open\');initialize();\"></input></p>")
-			.appendTo($("#content"))
+		$("#bp_result").html("<p>Your blood pressure is <span class='bp-bad'>TOO HIGH</span>.<br /><input type='button' value='Help!' id='infobox' onclick=\"$(\'#info-box\').dialog(\'open\');initialize();\"></input></p>");
 	} else if (bp_top > 120 || bp_bottom > 80) {
-		$("<p>Your blood pressure is <span id='bp-moderate'>SLIGHTLY HIGH</span>.</p>")
-			.appendTo("#content")
+		$("#bp_result").html("<p>Your blood pressure is <span id='bp-moderate'>SLIGHTLY HIGH</span>.</p>")
 	} else if (bp_top > 90 || bp_bottom > 60) {
-		$("<p>Your blood pressure is <span id='bp-good'>FINE</span>.</p>")
-			.appendTo($("#content"))
+		$("#bp_result").html("<p>Your blood pressure is <span id='bp-good'>FINE</span>.</p>")
 	} else if (bp_top > 0 && bp_bottom > 0) {
-		$("<p>Your blood pressure is <span class='bp-bad'>TOO LOW</span>.</p>")
-			.appendTo($("#content"))
+		$("#bp_result").html("<p>Your blood pressure is <span class='bp-bad'>TOO LOW</span>.</p>")
 	} else {
-		$("<p>You must be <span class='bp-bad'>DEAD</span>.</p>")
-			.appendTo("#content")
+		$("#bp_result").html("<p>You must be <span class='bp-bad'>DEAD</span>.</p>")
 	}
 }
 
