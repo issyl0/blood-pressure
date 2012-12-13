@@ -32,30 +32,35 @@ $(function () {
 	});
 });
 
-//function geolocate_gps() {
-	var map;
-	var service;
-	var infowindow;
-	
 function initialize() {
-	/*var positions = navigator.geolocation.getCurrentPosition();
-	var latitude = positions.coords.latitude;
-	var longitude = positions.coords.longitude;*/
-	var current_location = new google.maps.LatLng(51.311623,-0.727762);
-	var mapOptions = {
-		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		center: current_location,
-		zoom: 15
-	}
-	var map = new google.maps.Map(document.getElementById('map_container', mapOptions));
-	var gp_request = {
-		location: current_location,
-		radius: '500',
-		query: 'gp',
-		sensor: false
-	}
-	service = new google.maps.places.PlacesService(map);
-	service.textSearch(gp_request, callback);
+		// Geolocation!
+        var latitude = 51.4791;
+        var longitude = 0.0;
+        navigator.geolocation.getCurrentPosition(got_position,position_error,{'timeout':10000});
+}
+
+function got_position(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        var current_location = new google.maps.LatLng(latitude,longitude);
+        var mapOptions = {
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                center: current_location,
+                zoom: 15
+        }
+        var map = new google.maps.Map(document.getElementById('map_container', mapOptions));
+        var gp_request = {
+                location: current_location,
+                radius: '500',
+                query: 'gp',
+                sensor: false
+        }
+        service = new google.maps.places.PlacesService(map);
+        service.textSearch(gp_request, callback);
+}
+
+function position_error(err) {
+        alert("Geolocation error.");
 }
 
 function callback(results, status) {
