@@ -6,11 +6,11 @@ function check_blood_pressure_values() {
 	if (bp_top > 140 || bp_bottom > 90) {
 		$("#bp_result").html("<p>Your blood pressure is <span class='bp-bad'>TOO HIGH</span>.<br /><input type='button' value='Help!' id='infobox' onclick=\"$(\'#info-box\').dialog(\'open\');initialize();\"></input></p>");
 	} else if (bp_top > 120 || bp_bottom > 80) {
-		$("#bp_result").html("<p>Your blood pressure is <span id='bp-moderate'>SLIGHTLY HIGH</span>.</p>")
+		$("#bp_result").html("<p>Your blood pressure is <span id='bp-moderate'>SLIGHTLY HIGH</span>.<br /><input type='button' value='Help!' id='infobox' onclick=\"$(\'#info-box\').dialog(\'open\');initialize();\"></input></p>")
 	} else if (bp_top > 90 || bp_bottom > 60) {
 		$("#bp_result").html("<p>Your blood pressure is <span id='bp-good'>FINE</span>.</p>")
 	} else if (bp_top > 0 && bp_bottom > 0) {
-		$("#bp_result").html("<p>Your blood pressure is <span class='bp-bad'>TOO LOW</span>.</p>")
+		$("#bp_result").html("<p>Your blood pressure is <span class='bp-bad'>TOO LOW</span>.<br /><input type='button' value='Help!' id='infobox' onclick=\"$(\'#info-box\').dialog(\'open\');initialize();\"></input></p>")
 	} else {
 		$("#bp_result").html("<p>You must be <span class='bp-bad'>DEAD</span>.</p>")
 	}
