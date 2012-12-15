@@ -30,18 +30,36 @@ $(function () {
 			}
 		}
 	});
+	$('#postcode-box').dialog({
+		autoOpen: false,
+		modal: true,
+		width: 200
+	});
 });
 
 function initialize() {
-		// Geolocation!
+	// Geolocation!
         var latitude = 51.4791;
         var longitude = 0.0;
-        navigator.geolocation.getCurrentPosition(got_position,position_error,{'timeout':10000});
+        var geocoder;
+        navigator.geolocation.getCurrentPosition(geolocated_position,position_error,{'timeout':10000});
 }
 
-function got_position(position) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
+function geolocated_position(position) {
+	var latitude = position.coords.latitude;
+	var longitude = position.coords.longitude;
+	got_position(latitude,longitude);
+}
+
+function geocoded_position(geocoded_postcode) {
+	var regex = /\((\S+), ?(\S+)\)/;
+	var match = regex.exec(geocoded_postcode);
+	var latitude = match[1];
+	var longitude = match[2];
+	got_position(latitude,longitude);
+}
+
+function got_position(latitude,longitude) {
         var current_location = new google.maps.LatLng(latitude,longitude);
         var mapOptions = {
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -49,21 +67,41 @@ function got_position(position) {
                 zoom: 15
         }
         var map = new google.maps.Map(document.getElementById('map_container', mapOptions));
-        var gp_request = {
-                location: current_location,
-                radius: '500',
-                query: 'gp',
-                sensor: false
-        }
-        service = new google.maps.places.PlacesService(map);
-        service.textSearch(gp_request, callback);
+        display_doctors(map,current_location);
 }
 
-function position_error(err) {
-        alert("Geolocation error.");
+function display_doctors(map,current_location) {
+	var gp_request = {
+		location: current_location,
+		radius: '500',
+		query: 'gp',
+		sensor: false
+	}
+	service = new google.maps.places.PlacesService(map);
+	service.textSearch(gp_request,callback_places);
 }
 
-function callback(results, status) {
+function position_error() {
+	$('#postcode-box').dialog('open');
+}
+
+function get_postcode() {
+	var geocoder = new google.maps.Geocoder();
+	var postcode = $('#postcode').val();
+	geocoder.geocode({'address': postcode},
+		function(results,status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				var geocoded_postcode = String(results[0].geometry.location);
+				geocoded_position(geocoded_postcode);
+				$('#postcode-box').dialog('close');
+			} else {
+				alert("Geocoding failed.");
+			}
+		}
+	);
+}
+
+function callback_places(results, status) {
 	if (status == google.maps.places.PlacesServiceStatus.OK) {
 		for (var i = 0; i < results.length; i++) {
 			if (i == 2) {
@@ -76,4 +114,3 @@ function callback(results, status) {
 		}
 	}
 }
-//}
