@@ -39,35 +39,31 @@ $(function () {
 
 function initialize() {
 	// Geolocation!
-        var latitude = 51.4791;
-        var longitude = 0.0;
-        var geocoder;
-        navigator.geolocation.getCurrentPosition(geolocated_position,position_error,{'timeout':10000});
+	var latitude = 51.4791;
+	var longitude = 0.0;
+	navigator.geolocation.getCurrentPosition(geolocated_position,position_error,{'timeout':10000});
 }
 
 function geolocated_position(position) {
-	var latitude = position.coords.latitude;
-	var longitude = position.coords.longitude;
-	got_position(latitude,longitude);
+	got_position(position.coords.latitude,position.coords.longitude);
 }
 
 function geocoded_position(geocoded_postcode) {
 	var regex = /\((\S+), ?(\S+)\)/;
 	var match = regex.exec(geocoded_postcode);
-	var latitude = match[1];
-	var longitude = match[2];
-	got_position(latitude,longitude);
+	// The match array does not start at 0. Reason unknown.
+	got_position(match[1],match[2]);
 }
 
 function got_position(latitude,longitude) {
-        var current_location = new google.maps.LatLng(latitude,longitude);
-        var mapOptions = {
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                center: current_location,
-                zoom: 15
-        }
-        var map = new google.maps.Map(document.getElementById('map_container', mapOptions));
-        display_doctors(map,current_location);
+	var current_location = new google.maps.LatLng(latitude,longitude);
+	var mapOptions = {
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		center: current_location,
+		zoom: 15
+	}
+	var map = new google.maps.Map(document.getElementById('map_container', mapOptions));
+	display_doctors(map,current_location);
 }
 
 function display_doctors(map,current_location) {
