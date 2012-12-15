@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
@@ -55,6 +56,11 @@
 			<div id="tips-section">
 				<ul>
 					<li>Visit a GP. Your nearest two are...</p>
+						<div id="postcode-box">
+							<p>Geolocation failed.<br />Enter your postcode and click OK.</p>
+							<input id="postcode" type="text" placeholder="postcode"></input>
+							<input id="ok_button" type="submit" value="OK" onclick="get_postcode();return false;"></input>
+						</div>
 						<div id="map_container">
 						</div>
 					</li>
