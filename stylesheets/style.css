@@ -20,3 +20,28 @@ div#info-box {
 div#tips-section {
 	text-align: left;
 }
+
+/* Graph styling. */
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line0 {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.line1 {
+  fill: none;
+  stroke: red;
+  stroke-width: 1.5px;
+}
