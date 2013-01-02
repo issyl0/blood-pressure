@@ -19,6 +19,7 @@ bp_data = Array.new()
 bp_data = $db_connection.query "SELECT reading_time,systolic,diastolic FROM blood_pressures WHERE user_id=#{userid} ORDER BY reading_time"
 
 # Convert array to CSV.
+puts "reading_time,systolic,diastolic"
 bp_data.each do |i|
 	puts i[0].split(" ")[0] + "," + i[1] + "," + i[2]
 end
