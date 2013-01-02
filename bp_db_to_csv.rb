@@ -20,6 +20,5 @@ bp_data = $db_connection.query "SELECT reading_time,systolic,diastolic FROM bloo
 
 # Convert array to CSV.
 bp_data.each do |i|
-  date = i[0].split(" ") # We don't care about the specific time.
-  puts date[0] + "," + i[1] + "," + i[2]
+	puts i[0].split(" ")[0] + "," + i[1] + "," + i[2]
 end
