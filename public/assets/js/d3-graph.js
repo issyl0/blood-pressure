@@ -21,12 +21,12 @@ var yAxis = d3.svg.axis()
 
 // Systolic line.
 var line0 = d3.svg.line()
-    .x(function(d) { return x(d.date); })
+    .x(function(d) { return x(d.reading_time); })
     .y(function(d) { return y(d.systolic); })
 
 // Diastolic line.
 var line1 = d3.svg.line()
-    .x(function(d) { return x(d.date); })
+    .x(function(d) { return x(d.reading_time); })
     .y(function(d) { return y(d.diastolic); })
 
 var svg = d3.select("div#content").append("svg")
@@ -38,7 +38,7 @@ var svg = d3.select("div#content").append("svg")
 // Parse the CSV of blood pressures.
 d3.csv("/blood-pressures.csv", function(error, data) {
   data.forEach(function(d) {
-    d.date = parseDate(d.date);
+    d.reading_time = parseDate(d.reading_time);
     d.systolic = +d.systolic;
     d.diastolic = +d.diastolic;
   });
@@ -46,7 +46,7 @@ d3.csv("/blood-pressures.csv", function(error, data) {
   /* Find the range of the systolic/diastolic blood pressure values,
    * then make the y axis the minimum of the systolic and maximum of
    * diastolic values. */
-  x.domain(d3.extent(data, function(d) { return d.date; }));
+  x.domain(d3.extent(data, function(d) { return d.reading_time; }));
   var smin = d3.min(data, function(d) { return d.systolic; });
   var smax = d3.max(data, function(d) { return d.systolic; });
   var dmin = d3.min(data, function(d) { return d.diastolic; });
