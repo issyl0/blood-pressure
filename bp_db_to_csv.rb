@@ -1,9 +1,11 @@
+#!/usr/bin/ruby
 # Convert the blood pressures from the database into a CSV file in
 # order to display the graph.
 
 require 'rubygems'
 require 'mysql'
 
+puts "Content-Type: text/csv\r\n\r\n"
 connection_info = File.open("/home/isabell/bp.txt", "r")
 connection_string = connection_info.read.chomp
 connection_info.close

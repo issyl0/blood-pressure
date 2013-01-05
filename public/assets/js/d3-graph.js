@@ -2,7 +2,7 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-var parseDate = d3.time.format("%d-%B-%Y").parse;
+var parseDate = d3.time.format("%Y-%m-%d").parse;
 
 var x = d3.time.scale()
     .range([0, width])
@@ -36,7 +36,7 @@ var svg = d3.select("div#content").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // Parse the CSV of blood pressures.
-d3.csv("blood-pressures.csv", function(error, data) {
+d3.csv("/blood-pressures.csv", function(error, data) {
   data.forEach(function(d) {
     d.date = parseDate(d.date);
     d.systolic = +d.systolic;
