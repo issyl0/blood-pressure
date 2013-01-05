@@ -1,9 +1,0 @@
-Improvements:
-
-* Geolocation.
-- Enable log in.
-* Graph of blood pressure readings from CSV file.
-- Show a person's historical blood pressure readings with graphs.
-- Show populational trends based on a person's location.
-- Make it look prettier.
-
