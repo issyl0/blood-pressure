@@ -31,11 +31,14 @@
   </head>
   <body>
         <div class="container one.column">
-                <div id="header"></div>
+                <div id="header">
+                    <% if @userid != nil %>
+                        <%= "<a href='/logout' id='logout_button'>Logout</a>" %>
+                    <% end %>
+                </div>
                 <div id="content">
                         <script src="http://d3js.org/d3.v3.js"></script>
                         <script type="text/javascript" src="/assets/js/d3-graph.js"></script>
-
                 </div>
         </div>
   </body>

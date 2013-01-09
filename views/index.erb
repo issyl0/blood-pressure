@@ -32,8 +32,14 @@
   </head>
   <body>
 	<div class="container one.column">
-		<div id="header"></div>
+		<div id="header">
+			<% if @userid != nil then %>
+				<%= "<a href='/logout' id='logout_button'>Logout</a>" %>
+			<% end %>
+		</div>
 		<div id="content">
+			<p>Session: <%= @sess_id %><br />
+				User ID: <%= @userid %></p>
 			<p>Should you really be concerned about your blood pressure?
 				<br />
 				Find out by entering both of its values below.</p>
