@@ -17,6 +17,9 @@
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
 	<script type="text/javascript" src="/assets/js/main.js"></script>
 	<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<link href="https://raw.github.com/trentrichardson/jQuery-Timepicker-Addon/master/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+	<script src="https://raw.github.com/trentrichardson/jQuery-Timepicker-Addon/master/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+	<script src="https://raw.github.com/trentrichardson/jQuery-Timepicker-Addon/master/jquery-ui-sliderAccess.js" type="text/javascript"></script>
 	<style type="text/css">
 		#map_container {
     		height: 300px;
@@ -44,11 +47,14 @@
 				<br />
 				Find out by entering both of its values below.</p>
 
-			<form>
-				<input id="bp-top" type="number" placeholder="top reading"></textarea>
+			<form id="bp-values">
+				<input id="bp-top" type="number" placeholder="top reading"></input>
 				<br />
 				<input id="bp-bottom" type="number" placeholder="bottom reading"></input>
 				<br />
+				<% if @userid != nil then %>
+					<%= "<input id='bp-reading-time' type='text' placeholder='datetime'></input>" %>
+				<% end %>
 				<input class='submit_button' type='submit' value='Submit' onclick="check_blood_pressure_values();return false;"></input>
 			</form>
 		</div>

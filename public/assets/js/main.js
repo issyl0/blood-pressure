@@ -35,6 +35,7 @@ $(function () {
 		modal: true,
 		width: 200
 	});
+	$('#bp-reading-time').datetimepicker();
 });
 
 function initialize() {
