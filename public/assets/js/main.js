@@ -1,24 +1,47 @@
-function check_blood_pressure_values() {
-	// Check the values.
-	var bp_top = $('#bp-top').val()
-	var bp_bottom = $('#bp-bottom').val()
+$(document).ready(function() {
+	$("#submit_button").click(function() {
+		// Check the values.
+		var bp_top = $('#systolic').val()
+		var bp_bottom = $('#diastolic').val()
+		var bp_readingtime = $('#readingtime').val()
 
-	if (bp_top > 140 || bp_bottom > 90) {
-		$("#bp_result").html("<p>Your blood pressure is <span class='bp-bad'>TOO HIGH</span>.<br /><input type='button' value='Help!' id='infobox' onclick=\"$(\'#info-box\').dialog(\'open\');initialize();\"></input></p>");
-	} else if (bp_top > 120 || bp_bottom > 80) {
-		$("#bp_result").html("<p>Your blood pressure is <span id='bp-moderate'>SLIGHTLY HIGH</span>.<br /><input type='button' value='Help!' id='infobox' onclick=\"$(\'#info-box\').dialog(\'open\');initialize();\"></input></p>")
-	} else if (bp_top > 90 || bp_bottom > 60) {
-		$("#bp_result").html("<p>Your blood pressure is <span id='bp-good'>FINE</span>.</p>")
-	} else if (bp_top > 0 && bp_bottom > 0) {
-		$("#bp_result").html("<p>Your blood pressure is <span class='bp-bad'>TOO LOW</span>.<br /><input type='button' value='Help!' id='infobox' onclick=\"$(\'#info-box\').dialog(\'open\');initialize();\"></input></p>")
-	} else {
-		$("#bp_result").html("<p>You must be <span class='bp-bad'>DEAD</span>.</p>")
-	}
-}
+		if (bp_top == "" || bp_bottom == "" || bp_readingtime == "") {
+			alert("Enter values into every box on the form.");
+		} else {
+			if (bp_top > 140 || bp_bottom > 90) {
+				$("#bp_result").html("<p>Your blood pressure is <span class='bp-bad'>TOO HIGH</span>.<br /><input type='button' value='Help!' id='infobox' onclick=\"$(\'#info_box\').dialog(\'open\');initialize();\"></input></p>");
+			} else if (bp_top > 120 || bp_bottom > 80) {
+				$("#bp_result").html("<p>Your blood pressure is <span id='bp-moderate'>SLIGHTLY HIGH</span>.<br /><input type='button' value='Help!' id='infobox' onclick=\"$(\'#info_box\').dialog(\'open\');\"></input></p>")
+			} else if (bp_top > 90 || bp_bottom > 60) {
+				$("#bp_result").html("<p>Your blood pressure is <span id='bp-good'>FINE</span>.</p>")
+			} else if (bp_top > 0 && bp_bottom > 0) {
+				$("#bp_result").html("<p>Your blood pressure is <span class='bp-bad'>TOO LOW</span>.<br /><input type='button' value='Help!' id='infobox' onclick=\"$(\'#info_box\').dialog(\'open\');\"></input></p>")
+			} else {
+				$("#bp_result").html("<p>You must be <span class='bp-bad'>DEAD</span>.</p>")
+			}
+
+			function onSuccess(data, status) {
+				alert(data);
+			}
+			function onError(data, status) {
+				alert("Something went wrong.");
+			}
+			var form_data = $('#bp_values').serialize();
+			$.ajax({
+				type: "GET",
+				url: "/submit",
+				cache: false,
+				data: form_data,
+				success: onSuccess,
+				error: onError
+			});
+		}
+	});
+});
 
 $(function () {
 	// Dialog box for displaying the info if blood pressure is too high.
-	$('#info-box').dialog({
+	$('#info_box').dialog({
 		autoOpen: false, 
 		width: 500,
 		modal: true,
@@ -30,13 +53,15 @@ $(function () {
 			}
 		}
 	});
-	$('#postcode-box').dialog({
+	$('#postcode_box').dialog({
 		autoOpen: false,
 		modal: true,
 		width: 200
 	});
-	$('#bp-reading-time').datetimepicker();
-});
+	$('#readingtime').datetimepicker({
+		dateFormat: 'yy-mm-dd'
+	});
+})
 
 function initialize() {
 	// Geolocation!
@@ -79,7 +104,7 @@ function display_doctors(map,current_location) {
 }
 
 function position_error() {
-	$('#postcode-box').dialog('open');
+	$('#postcode_box').dialog('open');
 }
 
 function get_postcode() {
@@ -90,7 +115,7 @@ function get_postcode() {
 			if (status == google.maps.GeocoderStatus.OK) {
 				var geocoded_postcode = String(results[0].geometry.location);
 				geocoded_position(geocoded_postcode);
-				$('#postcode-box').dialog('close');
+				$('#postcode_box').dialog('close');
 			} else {
 				alert("Geocoding failed.");
 			}

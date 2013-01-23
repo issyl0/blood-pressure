@@ -47,39 +47,38 @@
 				<br />
 				Find out by entering both of its values below.</p>
 
-			<form id="bp-values">
-				<input id="bp-top" type="number" placeholder="top reading"></input>
+			<form id="bp_values" method="post">
+				<input id="systolic" type="number" name="systolic" placeholder="top reading"></input>
 				<br />
-				<input id="bp-bottom" type="number" placeholder="bottom reading"></input>
+				<input id="diastolic" type="number" name="diastolic" placeholder="bottom reading"></input>
 				<br />
 				<% if @userid != nil then %>
-					<%= "<input id='bp-reading-time' type='text' placeholder='datetime'></input>" %>
+					<%= "<input id='readingtime' type='text' name='readingtime' placeholder='datetime'></input>" %>
 				<% end %>
-				<input class='submit_button' type='submit' value='Submit' onclick="check_blood_pressure_values();return false;"></input>
+				<input id='submit_button' type='button' value='Submit'></input>
 			</form>
-		</div>
-		<div id="bp_result"></div>
-		<div id="info-box" title="Help!">
-		<!-- Pop up help box for if blood pressure is too high. -->
-			<p>Your blood pressure is higher than that of 69.8% of adults in England.</p>
+			<div id="bp_result"></div>
+			<div id="info_box" title="Help!">
+			<!-- Pop up help box for if blood pressure is too high. -->
+				<p>Your blood pressure is higher than that of 69.8% of adults in England.</p>
 
-			<p>Here are some things to do to help reduce it:</p>
-			<div id="tips-section">
-				<ul>
-					<li>Visit a GP. Your nearest two are...</p>
-						<div id="postcode-box">
-							<p>Geolocation failed.<br />Enter your postcode and click OK.</p>
-							<input id="postcode" type="text" placeholder="postcode"></input>
-							<input id="ok_button" type="submit" value="OK" onclick="get_postcode();return false;"></input>
-						</div>
-						<div id="map_container">
-						</div>
-					</li>
-					<li>Eat healthily.</li>
-				</ul>
+				<p>Here are some things to do to help reduce it:</p>
+				<div id="tips_section">
+					<ul>
+						<li>Visit a GP. Your nearest two are...</p>
+							<div id="postcode_box">
+								<p>Geolocation failed.<br />Enter your postcode and click OK.</p>
+								<input id="postcode" type="text" placeholder="postcode"></input>
+								<input id="ok_button" type="submit" value="OK" onclick="get_postcode();return false;"></input>
+							</div>
+							<div id="map_container">
+							</div>
+						</li>
+						<li>Eat healthily.</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-
 		<div id="footer">
 			<p>Created by <a href="http://issyl0.co.uk">Isabell Long</a> at <a href="http://rewiredstate.org/hacks/wellcome-trust-open-science">Rewired State's Wellcome Trust hackday</a>.<br />
 				Code on <a href="https://github.com/issyl0/blood-pressure">GitHub</a>.</p>
