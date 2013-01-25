@@ -81,7 +81,7 @@ get '/logout' do
 end
 
 get '/submit' do
-	if params[:systolic] != nil && params[:systolic].match(/^\d+$/) && params[:diastolic] != nil && params[:diastolic].match(/^\d+$/) && params[:readingtime] != nil && params[:readingtime].match(/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}$/) then
+	if !params[:systolic].nil? && params[:systolic].match(/^\d+$/) && !params[:diastolic].nil? && params[:diastolic].match(/^\d+$/) && !params[:readingtime].nil? && params[:readingtime].match(/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}$/) then
 		send_data = $db_connection.prepare "INSERT INTO blood_pressures(user_id,reading_time,entered_time,systolic,diastolic) VALUES(?,?,?,?,?)"
 		send_data.execute @userid, params[:readingtime], Time.now(), params[:systolic], params[:diastolic]
 		"Data insertion successful."
