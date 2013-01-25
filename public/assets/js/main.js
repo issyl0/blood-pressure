@@ -59,7 +59,8 @@ $(function () {
 		width: 200
 	});
 	$('#readingtime').datetimepicker({
-		dateFormat: 'yy-mm-dd'
+		dateFormat: 'yy-mm-dd',
+		maxDate: 0
 	});
 })
 
