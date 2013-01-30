@@ -6,7 +6,7 @@
 <html>
   <head>
         <meta charset="utf-8">
-        <title>Blood Pressure - Your Graphs.</title>
+        <title>Blood Pressure - Your Statistics.</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="/assets/css/base.css">
         <link rel="stylesheet" href="/assets/css/skeleton.css">
@@ -33,6 +33,7 @@
         <div class="container one.column">
                 <div id="header">
                     <% if @userid != nil %>
+                        <%= "<a href='/index' id='home_button'>Home</a>" %>
                         <%= "<a href='/logout' id='logout_button'>Logout</a>" %>
                     <% end %>
                 </div>

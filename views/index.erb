@@ -37,6 +37,7 @@
 	<div class="container one.column">
 		<div id="header">
 			<% if @userid != nil then %>
+				<%= "<a href='/stats' id='stats_button'>Statistics</a>" %>
 				<%= "<a href='/logout' id='logout_button'>Logout</a>" %>
 			<% end %>
 		</div>

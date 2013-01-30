@@ -55,17 +55,17 @@ get '/' do
 	erb :index
 end
 
-get '/graph' do
-	# A user who is not logged in should not be able to view graphs.
+get '/stats' do
+	# A user who is not logged in should not be able to view stats.
 	if @userid != nil then
-		erb :graph
+		erb :stats
 	else
 		"Sorry, you are not logged in."
 	end
 end
 
 get '/blood-pressures.csv' do
-	# A user who is not logged in should not be able to view graphs.
+	# A user who is not logged in should not be able to view stats.
 	if @userid != nil then
 		get_blood_pressure_data(@userid)
 	else
