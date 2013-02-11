@@ -21,6 +21,11 @@ div#tips-section {
 	text-align: left;
 }
 
+th, tr, td {
+  padding: 2px;
+  text-align: center;
+}
+
 /* Graph styling. */
 
 .axis path,

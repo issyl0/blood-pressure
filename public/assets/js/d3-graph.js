@@ -3,6 +3,7 @@ var margin = {top: 100, right: 100, bottom: 100, left: 100},
     height = 500 - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%Y-%m-%d").parse;
+var formatDate = d3.time.format("%Y-%m-%d");
 
 var x = d3.time.scale()
     .range([0, width])
@@ -68,7 +69,7 @@ d3.csv("/blood-pressures.csv", function(error, data) {
       .style("text-anchor", "end")
       .text("blood pressure readings");
 
-// Display both lines.
+  // Display both lines.
   svg.append("path")
       .datum(data)
       .attr("class", "line0")
@@ -77,4 +78,14 @@ d3.csv("/blood-pressures.csv", function(error, data) {
       .datum(data)
       .attr("class", "line1")
       .attr("d", line1);
+
+  // Display the user's five most recent blood pressures.
+  $("#bp_user_readings_container").append("<table id='bp_user_readings_table'><thead><tr><th>Reading Time</th><th>Systolic</th><th>Diastolic</th></tr></thead>");
+  for (i = 0; i <= 5; i++) {
+    var d = data.pop();
+    if (d) {
+      $("#bp_user_readings_table").append("<tr><td>" + formatDate(d.reading_time) + "</td><td>" + d.systolic + "</td><td>" + d.diastolic + "</td></tr>");
+    }
+  }
+  $("#bp_user_readings_container").append("</table>")
 });
