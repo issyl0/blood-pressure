@@ -11,12 +11,6 @@ CONSUMER_SECRET = ""
 CALLBACK_URL = ""
 
 helpers do
-	def generate_random_string()
-		# Generate a random 40 character string for the cookie.
-		characters = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
-		return (0..40).map{characters.sample}.join
-	end
-
 	def get_blood_pressure_data(user_id)
 		# Get the data.
 		bp_data = Array.new()
@@ -32,30 +26,11 @@ helpers do
 end
 
 before do
-
-	# Handle cookies.
-	#sess_id = cookies['blood-pressure-cookie'].inspect
-	#if sess_id.nil? or sess_id == 'nil' then
-	#	sess_id = generate_random_string()
-	#	cookies['blood-pressure-cookie'] = sess_id
-	#end
-	# Bizarrely, the cookie string is returned with quotation marks
-	# surrounding it. Delete them.
-	#@sess_id = sess_id.delete '"'
-
 	# Establish a database connection.	
 	$connection_info = File.open("/Users/isabell/bp.txt", "r")
 	connection_string = $connection_info.read.chomp
 	server, dbname, dbuser, dbpass = connection_string.split(':',4)
 	$db_connection = Mysql.new server, dbuser, dbpass, dbname
-
-	# Look up user ID based on session ID.
-	#result = $db_connection.query "SELECT user_id FROM users WHERE cookie_id = '#{@sess_id}'"
-	#if result.num_rows == 1
-	#	session[:user_id] = result.fetch_row[0].to_i
-	#else
-	#	session[:user_id] = nil
-	#end
 end
 
 get '/' do
@@ -75,8 +50,7 @@ get '/oauth' do
   client = TwitterOAuth::Client.new(:consumer_key => CONSUMER_KEY, :consumer_secret => CONSUMER_SECRET)
   client.authorize(session[:request_token], session[:request_token_secret], :oauth_verifier => session[:oauth_verifier])
   session[:user_id] = client.info["id"]
-  session[:screen_name] = client.info["screen_name"]
-  #"Hi, I'm #{session[:user_id]}, and my username is #{client.info['screen_name']}!" 
+  session[:screen_name] = client.info["screen_name"] 
   redirect "/"
 end
 
@@ -101,7 +75,6 @@ end
 get '/logout' do
 	# Log the user out.
 	session[:user_id] = nil
-	#$db_connection.query "UPDATE users SET cookie_id = NULL WHERE cookie_id = '#{@sess_id}'"
 	redirect '/'
 end
 

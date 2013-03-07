@@ -25,7 +25,7 @@
   <body>
         <div class="container one.column">
                 <div id="header">
-                    <% if @user_id != nil %>
+                    <% if session[:user_id] != nil %>
                         <%= "<a href='/' id='home_button'>Home</a>" %>
                         <%= "<a href='/logout' id='logout_button'>Logout</a>" %>
                     <% end %>
