@@ -77,7 +77,7 @@ get '/oauth' do
   session[:user_id] = client.info["id"]
   session[:screen_name] = client.info["screen_name"]
   #"Hi, I'm #{session[:user_id]}, and my username is #{client.info['screen_name']}!" 
-  redirect "/?oauth_token=#{params[:oauth_token]}&oauth_verifier=#{session[:oauth_verifier]}"
+  redirect "/"
 end
 
 get '/stats' do
@@ -108,7 +108,7 @@ end
 get '/submit' do
 	if !params[:systolic].nil? && params[:systolic].match(/^\d+$/) && !params[:diastolic].nil? && params[:diastolic].match(/^\d+$/) && !params[:readingtime].nil? && params[:readingtime].match(/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}$/) then
 		send_data = $db_connection.prepare "INSERT INTO blood_pressures(user_id,reading_time,entered_time,systolic,diastolic) VALUES(?,?,?,?,?)"
-		send_data.execute @userid, params[:readingtime], Time.now(), params[:systolic], params[:diastolic]
+		send_data.execute session[:user_id], params[:readingtime], Time.now(), params[:systolic], params[:diastolic]
 		"Data insertion successful."
 	end
 end
