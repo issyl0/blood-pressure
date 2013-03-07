@@ -1,8 +1,15 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/cookies'
+require 'twitter_oauth'
 require 'mysql'
 require 'sanitize'
+
+enable :sessions
+
+CONSUMER_KEY = ""
+CONSUMER_SECRET = ""
+CALLBACK_URL = ""
 
 helpers do
 	def generate_random_string()
@@ -11,10 +18,10 @@ helpers do
 		return (0..40).map{characters.sample}.join
 	end
 
-	def get_blood_pressure_data(userid)
+	def get_blood_pressure_data(user_id)
 		# Get the data.
 		bp_data = Array.new()
-		bp_data = $db_connection.query "SELECT reading_time,systolic,diastolic FROM blood_pressures WHERE user_id=#{userid} ORDER BY reading_time"
+		bp_data = $db_connection.query "SELECT reading_time,systolic,diastolic FROM blood_pressures WHERE user_id=#{user_id} ORDER BY reading_time"
 
 		# Convert array to CSV.
 		csv_data = "reading_time,systolic,diastolic\n"
@@ -26,15 +33,16 @@ helpers do
 end
 
 before do
+
 	# Handle cookies.
-	sess_id = cookies['blood-pressure-cookie'].inspect
-	if sess_id.nil? or sess_id == 'nil' then
-		sess_id = generate_random_string()
-		cookies['blood-pressure-cookie'] = sess_id
-	end
+	#sess_id = cookies['blood-pressure-cookie'].inspect
+	#if sess_id.nil? or sess_id == 'nil' then
+	#	sess_id = generate_random_string()
+	#	cookies['blood-pressure-cookie'] = sess_id
+	#end
 	# Bizarrely, the cookie string is returned with quotation marks
 	# surrounding it. Delete them.
-	@sess_id = sess_id.delete '"'
+	#@sess_id = sess_id.delete '"'
 
 	# Establish a database connection.	
 	$connection_info = File.open("/Users/isabell/bp.txt", "r")
@@ -43,21 +51,38 @@ before do
 	$db_connection = Mysql.new server, dbuser, dbpass, dbname
 
 	# Look up user ID based on session ID.
-	result = $db_connection.query "SELECT user_id FROM users WHERE cookie_id = '#{@sess_id}'"
-	if result.num_rows == 1
-		@userid = result.fetch_row[0].to_i
-	else
-		@userid = nil
-	end
+	#result = $db_connection.query "SELECT user_id FROM users WHERE cookie_id = '#{@sess_id}'"
+	#if result.num_rows == 1
+	#	session[:user_id] = result.fetch_row[0].to_i
+	#else
+	#	session[:user_id] = nil
+	#end
 end
 
 get '/' do
 	erb :index
 end
 
+get '/connect' do
+  client = TwitterOAuth::Client.new(:consumer_key => CONSUMER_KEY, :consumer_secret => CONSUMER_SECRET)
+  request_token = client.request_token(:oauth_callback => CALLBACK_URL)
+  session[:request_token] = request_token.token
+  session[:request_token_secret] = request_token.secret
+  redirect request_token.authorize_url
+end
+
+get '/oauth' do
+  session[:oauth_verifier] = params[:oauth_verifier]
+  client = TwitterOAuth::Client.new(:consumer_key => CONSUMER_KEY, :consumer_secret => CONSUMER_SECRET)
+  session[:access_token] = client.authorize(session[:request_token], session[:request_token_secret], :oauth_verifier => session[:oauth_verifier])
+  session[:user_id] = client.info["id"]
+  "Hi, I'm #{session[:user_id]}, and my username is #{client.info['screen_name']}!" 
+  #redirect "/?oauth_token=#{params[:oauth_token]}&oauth_verifier=#{session[:oauth_verifier]}"
+end
+
 get '/stats' do
 	# A user who is not logged in should not be able to view stats.
-	if @userid != nil then
+	if session[:user_id] != nil then
 		erb :stats
 	else
 		"Sorry, you are not logged in."
@@ -66,8 +91,8 @@ end
 
 get '/blood-pressures.csv' do
 	# A user who is not logged in should not be able to view stats.
-	if @userid != nil then
-		get_blood_pressure_data(@userid)
+	if session[:user_id] != nil then
+		get_blood_pressure_data(session[:user_id])
 	else
 		"Sorry, you are not logged in."
 	end
@@ -75,7 +100,7 @@ end
 
 get '/logout' do
 	# Log the user out, removing his or her cookie from the database.
-	@userid = nil
+	session[:user_id] = nil
 	$db_connection.query "UPDATE users SET cookie_id = NULL WHERE cookie_id = '#{@sess_id}'"
 	erb :index
 end

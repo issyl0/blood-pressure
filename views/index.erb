@@ -36,14 +36,17 @@
   <body>
 	<div class="container one.column">
 		<div id="header">
-			<% if @userid != nil then %>
+			<% if @user_id != nil then %>
+				<%= "<p>Hi, #{client.info['screen_name']}!</p>" %>
 				<%= "<a href='/stats' id='stats_button'>Statistics</a>" %>
 				<%= "<a href='/logout' id='logout_button'>Logout</a>" %>
+			<% else %> <!-- Only this displays. -->
+				<%= "<a href='/connect' id='twitter_button'><img src='assets/images/sign-in-with-twitter-gray.png' alt='twitter sign in button' /></a>" %>
 			<% end %>
 		</div>
 		<div id="content">
-			<p>Session: <%= @sess_id %><br />
-				User ID: <%= @userid %></p>
+			<p>Session: <%= @sess_id %><br /> <!-- These two lines don't work. -->
+				User ID: <%= @user_id %></p>
 			<p>Should you really be concerned about your blood pressure?
 				<br />
 				Find out by entering both of its values below.</p>
@@ -53,7 +56,7 @@
 				<br />
 				<input id="diastolic" type="number" name="diastolic" placeholder="bottom reading"></input>
 				<br />
-				<% if @userid != nil then %>
+				<% if @user_id != nil then %>
 					<%= "<input id='readingtime' type='text' name='readingtime' placeholder='datetime'></input><br />" %>
 				<% end %>
 				<input id='submit_button' type='button' value='Submit'></input>
