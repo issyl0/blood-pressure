@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'sinatra'
-require 'sinatra/cookies'
 require 'twitter_oauth'
 require 'mysql'
 require 'sanitize'
@@ -74,10 +73,11 @@ end
 get '/oauth' do
   session[:oauth_verifier] = params[:oauth_verifier]
   client = TwitterOAuth::Client.new(:consumer_key => CONSUMER_KEY, :consumer_secret => CONSUMER_SECRET)
-  session[:access_token] = client.authorize(session[:request_token], session[:request_token_secret], :oauth_verifier => session[:oauth_verifier])
+  client.authorize(session[:request_token], session[:request_token_secret], :oauth_verifier => session[:oauth_verifier])
   session[:user_id] = client.info["id"]
-  "Hi, I'm #{session[:user_id]}, and my username is #{client.info['screen_name']}!" 
-  #redirect "/?oauth_token=#{params[:oauth_token]}&oauth_verifier=#{session[:oauth_verifier]}"
+  session[:screen_name] = client.info["screen_name"]
+  #"Hi, I'm #{session[:user_id]}, and my username is #{client.info['screen_name']}!" 
+  redirect "/?oauth_token=#{params[:oauth_token]}&oauth_verifier=#{session[:oauth_verifier]}"
 end
 
 get '/stats' do
@@ -99,10 +99,10 @@ get '/blood-pressures.csv' do
 end
 
 get '/logout' do
-	# Log the user out, removing his or her cookie from the database.
+	# Log the user out.
 	session[:user_id] = nil
-	$db_connection.query "UPDATE users SET cookie_id = NULL WHERE cookie_id = '#{@sess_id}'"
-	erb :index
+	#$db_connection.query "UPDATE users SET cookie_id = NULL WHERE cookie_id = '#{@sess_id}'"
+	redirect '/'
 end
 
 get '/submit' do

@@ -36,8 +36,8 @@
   <body>
 	<div class="container one.column">
 		<div id="header">
-			<% if @user_id != nil then %>
-				<%= "<p>Hi, #{client.info['screen_name']}!</p>" %>
+			<% if session[:user_id] != nil then %>
+				<%= "<p>Hi, #{session[:screen_name]}!</p>" %>
 				<%= "<a href='/stats' id='stats_button'>Statistics</a>" %>
 				<%= "<a href='/logout' id='logout_button'>Logout</a>" %>
 			<% else %> <!-- Only this displays. -->
