@@ -20,11 +20,8 @@ $(document).ready(function() {
 				$("#bp_result").html("<p>You must be <span class='bp-bad'>DEAD</span>.</p>")
 			}
 
-			function onSuccess(data, status) {
-				alert(data);
-			}
 			function onError(data, status) {
-				alert("Something went wrong.");
+				alert("Sorry, your blood pressures could not be saved at this time!");
 			}
 			var form_data = $('#bp_values').serialize();
 			$.ajax({
@@ -32,7 +29,6 @@ $(document).ready(function() {
 				url: "/submit",
 				cache: false,
 				data: form_data,
-				success: onSuccess,
 				error: onError
 			});
 		}
