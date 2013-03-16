@@ -51,7 +51,7 @@ get '/twitter_oauth' do
   client.authorize(session[:request_token], session[:request_token_secret], :oauth_verifier => session[:oauth_verifier])
 
   user_id_query = $db_connection.query "SELECT user_id FROM users WHERE auth_user_id='twitter_#{client.info["id"]}'"
-  user_id = user_id_query.fetch_row
+  user_id = user_id_query.fetch_row[0]
   if user_id != nil then
     # User has signed in previously.
     session[:user_id] = user_id
