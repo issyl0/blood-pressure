@@ -39,7 +39,7 @@ end
 
 get '/twitter_connect' do
   client = TwitterOAuth::Client.new(:consumer_key => CONSUMER_KEY, :consumer_secret => CONSUMER_SECRET)
-  request_token = client.request_token(:oauth_callback => CALLBACK_URL)
+  request_token = client.authentication_request_token(:oauth_callback => CALLBACK_URL)
   session[:request_token] = request_token.token
   session[:request_token_secret] = request_token.secret
   redirect request_token.authorize_url
