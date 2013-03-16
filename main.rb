@@ -37,7 +37,7 @@ get '/' do
 	erb :index
 end
 
-get '/connect' do
+get '/twitter_connect' do
   client = TwitterOAuth::Client.new(:consumer_key => CONSUMER_KEY, :consumer_secret => CONSUMER_SECRET)
   request_token = client.request_token(:oauth_callback => CALLBACK_URL)
   session[:request_token] = request_token.token
@@ -45,11 +45,25 @@ get '/connect' do
   redirect request_token.authorize_url
 end
 
-get '/oauth' do
+get '/twitter_oauth' do
   session[:oauth_verifier] = params[:oauth_verifier]
   client = TwitterOAuth::Client.new(:consumer_key => CONSUMER_KEY, :consumer_secret => CONSUMER_SECRET)
   client.authorize(session[:request_token], session[:request_token_secret], :oauth_verifier => session[:oauth_verifier])
-  session[:user_id] = client.info["id"]
+
+  user_id_query = $db_connection.query "SELECT user_id FROM users WHERE auth_user_id='twitter_#{client.info["id"]}'"
+  user_id = user_id_query.fetch_row
+  if user_id != nil then
+    # User has signed in previously.
+    session[:user_id] = user_id
+  else
+    # Add the new user to the database.
+    new_user = $db_connection.prepare "INSERT INTO users(auth_user_id) VALUES(?)"
+    new_user.execute "twitter_#{client.info["id"]}"
+
+    user_id_session_query = $db_connection.query "SELECT user_id FROM users WHERE auth_user_id='twitter_#{client.info["id"]}'"
+    session[:user_id] = user_id_session_query.fetch_row
+  end
+
   session[:screen_name] = client.info["screen_name"] 
   redirect "/"
 end
