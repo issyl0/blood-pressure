@@ -51,17 +51,25 @@ get '/twitter_oauth' do
   client.authorize(session[:request_token], session[:request_token_secret], :oauth_verifier => session[:oauth_verifier])
 
   user_id_query = $db_connection.query "SELECT user_id FROM users WHERE auth_user_id='twitter_#{client.info["id"]}'"
-  user_id = user_id_query.fetch_row[0]
-  if user_id != nil then
-    # User has signed in previously.
+  # Make sure that the query returns some data before dealing with it.
+  user_id_query_result = user_id_query.fetch_row
+  if user_id_query_result != nil then
+  	user_id = user_id_query_result[0]
+  	# User has signed in previously. Update timing of the last login.
     session[:user_id] = user_id
+    $db_connection.query "UPDATE users SET last_login_time = NOW() WHERE user_id=#{session[:user_id]}"
   else
-    # Add the new user to the database.
-    new_user = $db_connection.prepare "INSERT INTO users(auth_user_id) VALUES(?)"
+  	user_id = nil
+  	# Add the new user to the database with a last login time.
+    new_user = $db_connection.prepare "INSERT INTO users(auth_user_id, last_login_time) VALUES(?, NOW())"
     new_user.execute "twitter_#{client.info["id"]}"
 
     user_id_session_query = $db_connection.query "SELECT user_id FROM users WHERE auth_user_id='twitter_#{client.info["id"]}'"
-    session[:user_id] = user_id_session_query.fetch_row
+    # Make sure that the query returns some data before dealing with it.
+    user_id_session_query_result = user_id_session_query.fetch_row
+    if user_id_session_query_result != nil then
+    	session[:user_id] = user_id_session_query_result[0]
+    end
   end
 
   session[:screen_name] = client.info["screen_name"] 
