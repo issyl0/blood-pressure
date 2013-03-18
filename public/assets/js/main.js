@@ -56,6 +56,7 @@ $(function () {
 	});
 	$('#readingtime').datetimepicker({
 		dateFormat: 'yy-mm-dd',
+		defaultDate: +0,
 		maxDate: 0
 	});
 })
