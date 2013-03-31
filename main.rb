@@ -4,9 +4,10 @@ require 'twitter_oauth'
 require 'mysql'
 require 'sanitize'
 
-enable :sessions
-
 require './secret'
+
+set :session_secret, SECRET_KEY
+enable :sessions
 
 helpers do
 	def get_blood_pressure_data(user_id)
