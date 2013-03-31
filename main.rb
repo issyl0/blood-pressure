@@ -6,9 +6,7 @@ require 'sanitize'
 
 enable :sessions
 
-CONSUMER_KEY = ""
-CONSUMER_SECRET = ""
-CALLBACK_URL = ""
+require './secret'
 
 helpers do
 	def get_blood_pressure_data(user_id)
@@ -26,11 +24,8 @@ helpers do
 end
 
 before do
-	# Establish a database connection.	
-	$connection_info = File.open("/Users/isabell/bp.txt", "r")
-	connection_string = $connection_info.read.chomp
-	server, dbname, dbuser, dbpass = connection_string.split(':',4)
-	$db_connection = Mysql.new server, dbuser, dbpass, dbname
+	# Establish a database connection.
+	$db_connection = Mysql.new DBSERVER, DBUSER, DBPASS, DBNAME
 end
 
 get '/' do
@@ -109,5 +104,5 @@ get '/submit' do
 end
 
 after do
-	$connection_info.close # Close the database connection.
+	$db_connection.close # Close the database connection.
 end
